@@ -1,0 +1,16 @@
+apiVersion: podvirt.io/v1alpha1
+kind: VirtualMachine
+metadata:
+  name: minimal-vm
+spec:
+  cpu:
+    cores: 1
+  memory: 512Mi
+  disks:
+    - name: rootdisk
+      source:
+        containerImage: quay.io/containerdisks/fedora:43
+      bus: virtio
+  networks:
+    - name: default
+      type: masquerade

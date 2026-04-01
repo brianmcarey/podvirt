@@ -1,0 +1,100 @@
+version: 2
+
+project_name: podvirt
+
+builds:
+  - id: podvirt
+    main: .
+    binary: podvirt
+    goos:
+      - linux
+    goarch:
+      - amd64
+      - arm64
+    env:
+      - CGO_ENABLED=0
+    tags:
+      - exclude_graphdriver_btrfs
+      - exclude_graphdriver_devicemapper
+      - containers_image_openpgp
+    ldflags:
+      - -s -w -X main.version={{ .Version }}
+
+archives:
+  - id: release-archives
+    ids:
+      - podvirt
+    formats:
+      - tar.gz
+    name_template: "{{ .ProjectName }}_{{ .Version }}_linux_{{ if eq .Arch \"amd64\" }}x86_64{{ else if eq .Arch \"arm64\" }}aarch64{{ else }}{{ .Arch }}{{ end }}"
+    files:
+      - LICENSE*
+      - README*
+  - id: release-binaries
+    ids:
+      - podvirt
+    formats:
+      - binary
+    name_template: "{{ .ProjectName }}_{{ .Version }}_linux_{{ if eq .Arch \"amd64\" }}x86_64{{ else if eq .Arch \"arm64\" }}aarch64{{ else }}{{ .Arch }}{{ end }}"
+
+checksum:
+  name_template: checksums.txt
+
+sboms:
+  - id: archive-sboms
+    artifacts: archive
+    ids:
+      - release-archives
+  - id: binary-sboms
+    artifacts: binary
+    ids:
+      - podvirt
+  - id: package-sboms
+    artifacts: package
+    ids:
+      - podvirt-rpm
+
+signs:
+  - id: checksum-signatures
+    cmd: cosign
+    artifacts: checksum
+    signature: "${artifact}.sigstore.json"
+    args:
+      - sign-blob
+      - "--bundle=${signature}"
+      - "${artifact}"
+      - "--yes"
+  - id: sbom-signatures
+    cmd: cosign
+    artifacts: sbom
+    signature: "${artifact}.sigstore.json"
+    args:
+      - sign-blob
+      - "--bundle=${signature}"
+      - "${artifact}"
+      - "--yes"
+
+changelog:
+  sort: asc
+
+nfpms:
+  - id: podvirt-rpm
+    ids:
+      - podvirt
+    package_name: podvirt
+    file_name_template: "{{ .PackageName }}_{{ .Version }}_{{ .Arch }}"
+    vendor: Brian Carey
+    homepage: https://github.com/brianmcarey/podvirt
+    maintainer: Brian Carey
+    description: Run KubeVirt virtual machines on a workstation using Podman.
+    license: Apache-2.0
+    formats:
+      - rpm
+    bindir: /usr/bin
+    dependencies:
+      - podman
+    contents:
+      - src: README.md
+        dst: /usr/share/doc/podvirt/README.md
+      - src: LICENSE
+        dst: /usr/share/licenses/podvirt/LICENSE

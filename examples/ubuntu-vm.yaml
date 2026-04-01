@@ -1,0 +1,22 @@
+apiVersion: podvirt.io/v1alpha1
+kind: VirtualMachine
+metadata:
+  name: ubuntu-vm
+  labels:
+    os: ubuntu
+spec:
+  cpu:
+    cores: 2
+  memory: 2Gi
+  disks:
+    - name: rootdisk
+      source:
+        # Download Ubuntu Cloud image from: https://cloud-images.ubuntu.com/releases/
+        image: /var/lib/podvirt/images/ubuntu-24.04-server-cloudimg-amd64.img
+      size: 20Gi
+      bus: virtio
+  networks:
+    - name: default
+      type: masquerade
+  console:
+    type: serial

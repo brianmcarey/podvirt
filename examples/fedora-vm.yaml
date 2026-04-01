@@ -1,0 +1,23 @@
+apiVersion: podvirt.io/v1alpha1
+kind: VirtualMachine
+metadata:
+  name: fedora-vm
+  labels:
+    env: dev
+spec:
+  cpu:
+    cores: 2
+    sockets: 1
+    threads: 1
+  memory: 2Gi
+  disks:
+    - name: rootdisk
+      source:
+        image: /var/lib/podvirt/images/Fedora-Cloud-Base-Generic-41-1.4.x86_64.qcow2
+      bus: virtio
+  networks:
+    - name: default
+      type: masquerade
+  console:
+    type: vnc
+    port: 5900
