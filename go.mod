@@ -3,7 +3,7 @@ module github.com/brianmcarey/podvirt
 go 1.25.6
 
 require (
-	github.com/containers/podman/v5 v5.7.0
+	github.com/containers/podman/v5 v5.8.1
 	github.com/olekukonko/tablewriter v1.1.3
 	github.com/opencontainers/runtime-spec v1.2.1
 	github.com/spf13/cobra v1.10.2
@@ -29,7 +29,7 @@ require (
 	github.com/containerd/log v0.1.0 // indirect
 	github.com/containerd/platforms v1.0.0-rc.1 // indirect
 	github.com/containerd/stargz-snapshotter/estargz v0.18.1 // indirect
-	github.com/containers/buildah v1.42.0 // indirect
+	github.com/containers/buildah v1.43.0 // indirect
 	github.com/containers/libtrust v0.0.0-20230121012942-c1716e8a8d01 // indirect
 	github.com/containers/ocicrypt v1.2.1 // indirect
 	github.com/containers/psgo v1.9.1-0.20250826150930-4ae76f200c86 // indirect
