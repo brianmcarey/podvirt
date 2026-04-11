@@ -188,12 +188,12 @@ For cache behavior, extraction details, and cleanup guidance, see [docs/storage.
 
 The default virt-launcher image is:
 ```
-quay.io/kubevirt/virt-launcher:v1.7.0
+quay.io/kubevirt/virt-launcher:v1.8.1
 ```
 
 Override it per-VM with the `--launcher-image` flag:
 ```bash
-podvirt create --config vm.yaml --launcher-image quay.io/kubevirt/virt-launcher:v1.8.0
+podvirt create --config vm.yaml --launcher-image quay.io/kubevirt/virt-launcher:v1.7.0
 ```
 
 ## Debugging

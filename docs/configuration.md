@@ -222,7 +222,7 @@ All `create` flags can be used standalone or combined with `--config` to overrid
 | `--ssh-key`        | auto-detect `~/.ssh/id_*.pub`        | SSH public key file to inject (repeatable) |
 | `--user`           | `podvirt`                            | Cloud-init username to create/use |
 | `--password`       | `podvirt`                            | Cloud-init password for that user |
-| `--launcher-image` | `quay.io/kubevirt/virt-launcher:v1.7.0` | virt-launcher image to use |
+| `--launcher-image` | `quay.io/kubevirt/virt-launcher:v1.8.1` | virt-launcher image to use |
 
 ### `podvirt start` flags
 
