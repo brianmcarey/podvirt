@@ -25,7 +25,7 @@ var qemuWrapper string
 // It preserves all settings from the virt-launcher image's qemu.conf and
 // adds podvirt-specific overrides.
 const qemuConf = `# podvirt-managed qemu.conf
-# Base settings preserved from quay.io/kubevirt/virt-launcher:v1.7.0
+# Base settings preserved from quay.io/kubevirt/virt-launcher:v1.8.1
 stdio_handler = "logd"
 vnc_listen = "0.0.0.0"
 vnc_tls = 0
@@ -99,13 +99,27 @@ func ContainerName(vmName string) string {
 }
 
 // ensureQemuBinary extracts /usr/libexec/qemu-kvm from the launcher image into
-// supportDir/qemu-kvm-real if it is not already present. The extracted binary is
-// bind-mounted at /usr/libexec/qemu-kvm-real inside the container so that QEMU's
-// module-path relocation (based on argv[0]'s directory) finds /usr/lib64/qemu-kvm/.
+// supportDir/qemu-kvm-real if it is not already present.
 func (c *Client) ensureQemuBinary(launcherImage, supportDir string) error {
 	realBinaryPath := filepath.Join(supportDir, "qemu-kvm-real")
-	if _, err := os.Stat(realBinaryPath); err == nil {
-		return nil // already extracted
+	imageStampPath := filepath.Join(supportDir, "qemu-kvm-real.image")
+
+	// Re-extract if the binary is missing or was extracted from a different image.
+	if stamp, err := os.ReadFile(imageStampPath); err == nil && string(stamp) == launcherImage {
+		if _, err := os.Stat(realBinaryPath); err == nil {
+			return nil
+		}
+	}
+	os.Remove(realBinaryPath)
+	if capsDir, err := os.UserCacheDir(); err == nil {
+		capsCacheDir := filepath.Join(capsDir, "podvirt", "qemu-caps")
+		if entries, err := os.ReadDir(capsCacheDir); err == nil {
+			for _, e := range entries {
+				if filepath.Ext(e.Name()) == ".xml" {
+					os.Remove(filepath.Join(capsCacheDir, e.Name()))
+				}
+			}
+		}
 	}
 
 	s := &specgen.SpecGenerator{
@@ -161,6 +175,9 @@ func (c *Client) ensureQemuBinary(launcherImage, supportDir string) error {
 				return fmt.Errorf("writing qemu-kvm-real: %w", err)
 			}
 			f.Close()
+			if err := os.WriteFile(imageStampPath, []byte(launcherImage), 0644); err != nil {
+				return fmt.Errorf("writing qemu-kvm-real image stamp: %w", err)
+			}
 			return nil
 		}
 	}
