@@ -2,6 +2,8 @@
 
 `podvirt` wraps KubeVirt's `virt-launcher` container image with Podman, giving you a simple CLI to create, start, stop, and manage VMs using the same underlying technology as KubeVirt. This is useful on Atomic distros like Fedora Silverblue where you might not have the required packages layered to quickly spin up virtual machines.
 
+For more on the back story behind the project, see the blog post [podvirt](https://www.careyscloud.ie/podvirt/).
+
 ## Features
 
 - Create and run VMs from a simple YAML config or CLI flags
