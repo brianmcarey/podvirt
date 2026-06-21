@@ -1,6 +1,6 @@
 module github.com/brianmcarey/podvirt
 
-go 1.25.6
+go 1.26.4
 
 require (
 	github.com/containers/podman/v5 v5.8.2
