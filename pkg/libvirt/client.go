@@ -12,9 +12,9 @@ import (
 	"time"
 
 	"github.com/brianmcarey/podvirt/pkg/util"
-	"github.com/containers/podman/v5/pkg/api/handlers"
-	"github.com/containers/podman/v5/pkg/bindings"
-	"github.com/containers/podman/v5/pkg/bindings/containers"
+	"go.podman.io/podman/v6/pkg/api/handlers"
+	"go.podman.io/podman/v6/pkg/bindings"
+	"go.podman.io/podman/v6/pkg/bindings/containers"
 )
 
 const virshTimeout = 30 * time.Second
