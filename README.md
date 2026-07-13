@@ -17,7 +17,7 @@ For more on the back story behind the project, see the blog post [podvirt](https
 
 | Component | Requirement |
 |-----------|-------------|
-| Podman    | v5.0+ |
+| Podman    | v6.0+ |
 | KVM       | `/dev/kvm` must exist; user must be in `kvm` group |
 
 

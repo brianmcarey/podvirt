@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	"github.com/brianmcarey/podvirt/pkg/util"
-	"github.com/containers/podman/v5/pkg/bindings"
+	"go.podman.io/podman/v6/pkg/bindings"
 )
 
 type Client struct {
