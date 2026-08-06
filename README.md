@@ -190,7 +190,7 @@ For cache behavior, extraction details, and cleanup guidance, see [docs/storage.
 
 The default virt-launcher image is:
 ```
-quay.io/kubevirt/virt-launcher:v1.8.3
+quay.io/kubevirt/virt-launcher:v1.9.0
 ```
 
 Override it per-VM with the `--launcher-image` flag:

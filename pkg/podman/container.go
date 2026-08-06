@@ -25,7 +25,7 @@ var qemuWrapper string
 // It preserves all settings from the virt-launcher image's qemu.conf and
 // adds podvirt-specific overrides.
 const qemuConf = `# podvirt-managed qemu.conf
-# Base settings preserved from quay.io/kubevirt/virt-launcher:v1.8.1
+# Base settings preserved from quay.io/kubevirt/virt-launcher:v1.9.0
 stdio_handler = "logd"
 vnc_listen = "0.0.0.0"
 vnc_tls = 0
