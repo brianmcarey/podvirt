@@ -1,0 +1,30 @@
+name: Bump virt-launcher image
+
+on:
+  schedule:
+    # Run every Monday at 09:00 UTC
+    - cron: '0 9 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  bump:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configure git
+        run: |
+          git config user.name "podvirt-bot"
+          git config user.email "podvirt-bot@users.noreply.github.com"
+
+      - name: Run bump script
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: ./scripts/bump-virt-launcher.sh
