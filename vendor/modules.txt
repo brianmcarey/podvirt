@@ -576,7 +576,7 @@ go.opentelemetry.io/otel/trace
 go.opentelemetry.io/otel/trace/embedded
 go.opentelemetry.io/otel/trace/internal/telemetry
 go.opentelemetry.io/otel/trace/noop
-# go.podman.io/buildah v1.45.1
+# go.podman.io/buildah v1.45.2
 ## explicit; go 1.26.0
 go.podman.io/buildah/define
 go.podman.io/buildah/internal/mkcw/types
@@ -691,7 +691,7 @@ go.podman.io/image/v5/transports
 go.podman.io/image/v5/transports/alltransports
 go.podman.io/image/v5/types
 go.podman.io/image/v5/version
-# go.podman.io/podman/v6 v6.1.3
+# go.podman.io/podman/v6 v6.1.4
 ## explicit; go 1.26.0
 go.podman.io/podman/v6/internal/remote_build_helpers
 go.podman.io/podman/v6/libpod/define
@@ -719,7 +719,7 @@ go.podman.io/podman/v6/pkg/util
 go.podman.io/podman/v6/pkg/util/tlsutil
 go.podman.io/podman/v6/version
 go.podman.io/podman/v6/version/rawversion
-# go.podman.io/storage v1.64.1
+# go.podman.io/storage v1.64.2
 ## explicit; go 1.25.0
 go.podman.io/storage
 go.podman.io/storage/drivers
@@ -735,8 +735,11 @@ go.podman.io/storage/internal/createpath
 go.podman.io/storage/internal/dedup
 go.podman.io/storage/internal/driver
 go.podman.io/storage/internal/rawfilelock
+go.podman.io/storage/internal/rootlookupcache
 go.podman.io/storage/internal/staging_lockfile
+go.podman.io/storage/internal/stat
 go.podman.io/storage/internal/tempdir
+go.podman.io/storage/internal/xattrs
 go.podman.io/storage/pkg/archive
 go.podman.io/storage/pkg/chrootarchive
 go.podman.io/storage/pkg/chunked
