@@ -44,7 +44,7 @@ func (ic *imageCopier) copyBlobFromStream(ctx context.Context, srcReader io.Read
 	// === Update progress bars
 	stream.reader, err = bar.ProxyReader(stream.reader)
 	if err != nil {
-		return types.BlobInfo{}, fmt.Errorf("preparing progress bar for blob %s: %w", srcInfo.Digest, err)
+		return types.BlobInfo{}, err
 	}
 
 	// === Decrypt the stream, if required.
