@@ -1,0 +1,54 @@
+name: Integration
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+# Allow one integration-test job per PR/branch to avoid queue contention.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  e2e-smoke:
+    name: e2e smoke test
+    # /dev/kVM is available on AMD64 Ubuntu GitHub-hosted runners.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          cache: true
+
+      - name: Download modules
+        run: go mod download
+
+      - name: Build
+        run: make build
+
+      - name: Enable KVM access for the runner user
+        # GitHub's standard x64 runners have /dev/kvm but the runner
+        # user is not in the kvm group.  Apply a udev rule that grants
+        # world read-write so the current session works without a reboot.
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' \
+            | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger
+          ls -la /dev/kvm
+
+      - name: Enable Podman socket (rootless)
+        run: |
+          systemctl --user enable --now podman.socket
+          systemctl --user status podman.socket
+
+      - name: Run e2e smoke test
+        run: bash test/e2e-smoke.sh
+        env:
+          BINARY: ./bin/podvirt
